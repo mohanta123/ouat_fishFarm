@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ouat/splash_screen.dart';
+import 'package:ouat/account/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());

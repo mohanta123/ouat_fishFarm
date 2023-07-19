@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ouat/notification.dart';
-import 'package:ouat/profile.dart';
-import 'package:ouat/querry.dart';
+import 'package:ouat/home_screen/notification.dart';
+import 'package:ouat/home_screen/profile.dart';
+import 'package:ouat/home_screen/querry.dart';
 
 import 'home_screen.dart';
 

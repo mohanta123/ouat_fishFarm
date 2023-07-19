@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../account/login_screen.dart';
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
 
@@ -197,24 +200,35 @@ class _ProfileState extends State<Profile> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
+                InkWell(
+                  onTap: ()async{
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-                    decoration: BoxDecoration(border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: ListTile(
+                    await prefs.clear();
+                    Navigator.pushReplacement(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => Login()));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
 
-                      leading: Icon(Icons.login_outlined,
-                        color: Colors.indigo[900],),
-                      title: Text(
-                        'Log Out',style:TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold
+                      decoration: BoxDecoration(border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: ListTile(
+
+                        leading: Icon(Icons.login_outlined,
+                          color: Colors.indigo[900],),
+                        title: Text(
+                          'Log Out',style:TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold
+                        ),
+
+                        ),
+                        trailing: Icon(Icons.arrow_forward_ios,color: Colors.indigo[900],),
                       ),
-
-                      ),
-                      trailing: Icon(Icons.arrow_forward_ios,color: Colors.indigo[900],),
                     ),
                   ),
                 ),

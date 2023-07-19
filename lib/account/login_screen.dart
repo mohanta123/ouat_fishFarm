@@ -1,7 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:ouat/sign_up.dart';
+import 'dart:convert';
 
-import 'button_navication_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:ouat/account/sign_up.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import '../home_screen/button_navication_screen.dart';
+import '../constraints/urls.dart';
 
 
 class Login extends StatefulWidget {
@@ -30,6 +34,42 @@ class _LoginState extends State<Login> {
     super.initState();
     passwordVisible = false;
   }
+
+
+
+  ///login using get method
+  void showInSnackBar(String value) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(value.toString()),
+    ));
+  }
+
+  TextEditingController userName_controller = TextEditingController();
+  TextEditingController password_controller = TextEditingController();
+
+
+  Future loginID() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String api =
+        login + userName_controller.text + "/" + password_controller.text;
+    final response = await http.get(Uri.parse(api));
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      Map mjson = json.decode(response.body);
+      print(mjson);
+      prefs.setString("usertype", "login");
+      prefs.setString("userId", mjson["userId"].toString());
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => Button_navication()),
+              (Route<dynamic> route) => false);
+    } else {
+      //Navigator.of(context).pop();
+      showInSnackBar(
+        "Invalid EmpId & Password.",
+      );
+    }
+  }
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
@@ -53,6 +93,7 @@ class _LoginState extends State<Login> {
                     child: Text("User Name",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
                   ),
                   TextField(
+                    controller: userName_controller,
                     decoration: InputDecoration(
                       prefixIcon: Icon(
                         Icons.person,
@@ -70,7 +111,7 @@ class _LoginState extends State<Login> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text("Password",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
                   ),
-                  TextField(
+                  TextField(controller: password_controller,
                     obscureText: passwordVisible,
                     decoration: InputDecoration(
                       prefixIcon: Icon(
@@ -116,12 +157,9 @@ class _LoginState extends State<Login> {
                     child: Container(
                         height: 35,
                         width:120,
-                        child: ElevatedButton(onPressed: (){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (builder) =>  Button_navication()),
-                          );
-
+                        child: ElevatedButton(
+                            onPressed: ()async{
+                         await loginID();
 
                         }, child: Text("Login"))),
                   ),

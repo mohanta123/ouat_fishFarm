@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'button_navication_screen.dart';
+import '../home_screen/button_navication_screen.dart';
 import 'login_screen.dart';
 
 class Registration extends StatefulWidget {

@@ -1,6 +1,10 @@
 
-import 'package:flutter/material.dart';
+import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../home_screen/button_navication_screen.dart';
 import 'login_screen.dart';
 
 
@@ -15,13 +19,37 @@ class _Slash_screenState extends State<Slash_screen> {
   void initState() {
 
     super.initState();
-    _navigatehome();
+    check();
+
   }
-  _navigatehome() async {
-    await Future.delayed(Duration(seconds:5), () {});
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => Login()));
-    //Login()
+
+
+  Future<void> check() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    print("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+
+    if ((preferences.getString("usertype")?? "") == "") {
+      Timer(
+        Duration(seconds: 3),
+            () => Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (BuildContext context) => Login()),
+              (Route<dynamic> route) => false,
+        ),
+      );
+      print("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG");
+    } else {
+      print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+
+      if (preferences.getString("usertype") == "login") {
+        Timer(
+          Duration(seconds: 3),
+              () => Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (BuildContext context) => Button_navication()),
+                (Route<dynamic> route) => false,
+          ),
+        );
+      }
+    }
   }
   @override
   Widget build(BuildContext context) {
