@@ -1,2 +1,2 @@
-const baseUrl="https://demo1.appman.in/api/";
+const baseUrl="https://demo2.appman.in/api/";
 const login=baseUrl+"Users/GetLoginInfo/";

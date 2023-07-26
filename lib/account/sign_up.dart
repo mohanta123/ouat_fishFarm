@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-
 import '../home_screen/button_navication_screen.dart';
 import 'login_screen.dart';
-
 class Registration extends StatefulWidget {
   const Registration({super.key});
-
   @override
   State<Registration> createState() => _RegistrationState();
 }
-
 class _RegistrationState extends State<Registration> {
   @override
   Widget build(BuildContext context) {
@@ -117,7 +113,6 @@ class _RegistrationState extends State<Registration> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (builder) =>  Login(
-
                           )),
                         );
                       },
